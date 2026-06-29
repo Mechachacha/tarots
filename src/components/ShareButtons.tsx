@@ -31,7 +31,7 @@ const ShareButtons: React.FC<ShareButtonsProps> = ({
   };
 
   return (
-    <div className="flex flex-wrap gap-3 pt-4 border-t border-tarot-dark/10" role="group" aria-label="シェアオプション">
+    <div className="flex flex-wrap gap-3 pt-4 border-t border-white/10" role="group" aria-label="シェアオプション">
       <button
         type="button"
         onClick={handleCopyShare}

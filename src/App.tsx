@@ -90,18 +90,6 @@ function App() {
     }
   }, [getCurrentThemes, useMinorArcana, question]);
 
-  const handleReset = useCallback(() => {
-    setResult(null);
-    setShowResult(false);
-    setQuestion('');
-    setUseMinorArcana(false);
-    setSpreadMode('preset');
-    setSelectedPresetId(SPREAD_PRESETS[0].id);
-    setCustomCardCount(1);
-    setCustomThemes(['1枚目']);
-    setError(null);
-  }, []);
-
   const handleCopyPrompt = useCallback(async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -127,29 +115,35 @@ function App() {
     }
   }, []);
 
+  const handleViewHistory = useCallback((historyResult: ReadingResult) => {
+    setResult(historyResult);
+    setShowResult(true);
+    setError(null);
+  }, []);
+
   const currentThemes = getCurrentThemes();
   const canDraw = currentThemes.length > 0;
 
   return (
-    <div className="min-h-screen bg-tarot-light">
+    <div className="min-h-screen">
       <main className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <header className="text-center mb-10">
-          <h1 className="text-4xl sm:text-5xl font-bold text-tarot-purple mb-2">
+          <h1 className="text-4xl sm:text-5xl font-bold text-tarot-gold mb-2">
             タロット占い
           </h1>
-          <p className="text-tarot-dark/60">
+          <p className="text-tarot-text">
             質問とスプレッドを選んで、カードを引こう
           </p>
         </header>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg" role="alert">
+          <div className="mb-6 p-4 bg-red-900/30 border border-red-500/30 text-red-300 rounded-lg" role="alert">
             {error}
           </div>
         )}
 
         <section className="card p-6 mb-8" aria-labelledby="input-heading">
-          <h2 id="input-heading" className="text-xl font-semibold text-tarot-dark mb-6">
+          <h2 id="input-heading" className="text-xl font-semibold text-tarot-light mb-6">
             設定
           </h2>
 
@@ -188,7 +182,6 @@ function App() {
             result={result}
             cards={CARDS}
             onRedraw={handleRedraw}
-            onReset={handleReset}
             onCopyPrompt={handleCopyPrompt}
             onShareTwitter={handleShareTwitter}
             onCopyShare={handleCopyShare}
@@ -199,10 +192,11 @@ function App() {
           history={history}
           cards={CARDS}
           onCopyPrompt={handleCopyPrompt}
+          onViewResult={handleViewHistory}
         />
       </main>
 
-      <footer className="text-center py-8 text-tarot-dark/50 text-sm">
+      <footer className="text-center py-8 text-tarot-text-muted text-sm">
         <p>Rider-Waite-Smith Tarot Deck (Public Domain)</p>
         <p className="mt-1">Built with React + TypeScript + Tailwind CSS</p>
       </footer>

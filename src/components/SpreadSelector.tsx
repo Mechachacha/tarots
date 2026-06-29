@@ -48,8 +48,10 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
   }, [localCustomThemes, mode, onCustomThemesChange]);
 
   const handleCustomCountChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const num = parseInt(value, 10);
+    const raw = e.target.value;
+    if (raw === '') return;
+    const num = parseInt(raw, 10);
+    if (String(num) !== raw) return;
     if (!isNaN(num) && num > 0 && num <= 78) {
       setLocalCustomCardCount(num);
       adjustThemes(num);
@@ -96,7 +98,7 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               mode === 'preset'
                 ? 'bg-tarot-purple text-white'
-                : 'bg-white text-tarot-dark border border-tarot-dark/20 hover:bg-tarot-purple/10'
+                : 'bg-tarot-mid text-tarot-light border border-white/20 hover:bg-tarot-purple/20'
             }`}
           >
             プリセット
@@ -109,7 +111,7 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               mode === 'custom'
                 ? 'bg-tarot-purple text-white'
-                : 'bg-white text-tarot-dark border border-tarot-dark/20 hover:bg-tarot-purple/10'
+                : 'bg-tarot-mid text-tarot-light border border-white/20 hover:bg-tarot-purple/20'
             }`}
           >
             カスタム
@@ -128,15 +130,15 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
               onClick={() => onPresetChange(preset.id)}
               className={`p-4 rounded-xl border-2 transition-all text-left ${
                 selectedPresetId === preset.id
-                  ? 'border-tarot-purple bg-tarot-purple/5'
-                  : 'border-tarot-dark/10 bg-white hover:border-tarot-purple/30'
+                  ? 'border-tarot-purple bg-tarot-purple/15'
+                  : 'border-white/10 bg-tarot-mid hover:border-tarot-purple/40'
               }`}
             >
-              <div className="font-medium text-tarot-dark">{preset.name}</div>
-              <div className="text-sm text-tarot-dark/60 mt-1">
+              <div className="font-medium text-tarot-light">{preset.name}</div>
+              <div className="text-sm text-tarot-text mt-1">
                 {preset.cardCount}枚
               </div>
-              <div className="text-xs text-tarot-dark/40 mt-2 line-clamp-2">
+              <div className="text-xs text-tarot-text-muted mt-2 line-clamp-2">
                 {preset.themes.join('、')}
               </div>
             </button>
@@ -160,7 +162,7 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
               className="input w-32"
               aria-describedby="custom-count-hint"
             />
-            <p id="custom-count-hint" className="mt-1 text-sm text-tarot-dark/50">
+            <p id="custom-count-hint" className="mt-1 text-sm text-tarot-text-muted">
               枚数を変更するとテーマ入力欄が自動調整されます
             </p>
           </div>
@@ -170,7 +172,7 @@ const SpreadSelector: React.FC<SpreadSelectorProps> = ({
             <div className="space-y-2" role="list" aria-label="カスタムテーマ一覧">
               {localCustomThemes.map((theme, index) => (
                 <div key={index} className="flex gap-2" role="listitem">
-                  <span className="flex items-center px-3 text-tarot-dark/50 bg-tarot-dark/5 rounded-lg">
+                  <span className="flex items-center px-3 text-tarot-text-muted bg-white/10 rounded-lg">
                     {index + 1}
                   </span>
                   <input

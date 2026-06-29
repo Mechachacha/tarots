@@ -31,7 +31,7 @@ const CardItem: React.FC<CardItemProps> = ({
 
   return (
     <article
-      className={`card card-hover animate-fade-in relative group ${isFlipped ? '' : 'card-back'}`}
+      className={`card card-hover animate-fade-in relative group w-full max-w-[200px] justify-self-center ${isFlipped ? '' : 'card-back'}`}
       style={{ animationDelay: `${delay}ms` }}
       role="listitem"
       aria-label={`${item.theme}: ${card.name} (${positionText})`}
@@ -69,15 +69,15 @@ const CardItem: React.FC<CardItemProps> = ({
       {!compact && (
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-tarot-dark/60 uppercase tracking-wide">
+            <span className="text-xs font-medium text-tarot-text uppercase tracking-wide">
               {item.theme}
             </span>
             <span className={`text-xs font-semibold ${positionClass}`}>
               {positionText}
             </span>
           </div>
-          <h3 className="font-semibold text-tarot-dark text-lg">{card.name}</h3>
-          <p className="text-xs text-tarot-dark/50 mt-1">
+          <h3 className="font-semibold text-tarot-light text-lg">{card.name}</h3>
+          <p className="text-xs text-tarot-text-muted mt-1">
             {card.arcana === 'major' ? '大アルカナ' : `小アルカナ・${card.suit}`}
           </p>
         </div>

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
-import { generatePromptText } from '../lib/promptText';
 import type { DrawResultItem } from '../types';
+import { generatePromptText } from '../lib/promptText';
 
 interface AiPromptBoxProps {
   question: string;
@@ -34,15 +34,15 @@ const AiPromptBox: React.FC<AiPromptBoxProps> = ({ question, items, onCopy }) =>
 
   return (
     <details className="mb-6 group" open={isOpen}>
-      <summary className="flex items-center justify-between cursor-pointer p-4 bg-tarot-dark/5 rounded-lg list-none">
-        <span className="font-medium text-tarot-dark flex items-center gap-2">
+      <summary className="flex items-center justify-between cursor-pointer p-4 bg-white/5 rounded-lg list-none">
+        <span className="font-medium text-tarot-light flex items-center gap-2">
           <svg className="w-5 h-5 text-tarot-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           AIに聞くプロンプト
         </span>
         <svg
-          className={`w-5 h-5 text-tarot-dark/50 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-5 h-5 text-tarot-text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -51,13 +51,13 @@ const AiPromptBox: React.FC<AiPromptBoxProps> = ({ question, items, onCopy }) =>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </summary>
-      <div className="mt-4 p-4 bg-tarot-dark/5 rounded-lg animate-fade-in">
+      <div className="mt-4 p-4 bg-white/5 rounded-lg animate-fade-in">
         <div className="relative">
           <textarea
             ref={textareaRef}
             value={promptText}
             readOnly
-            className="input font-mono text-sm h-48 bg-tarot-dark/10"
+            className="input font-mono text-sm h-48"
             aria-label="AIプロンプトテキスト"
           />
           <button
@@ -73,7 +73,7 @@ const AiPromptBox: React.FC<AiPromptBoxProps> = ({ question, items, onCopy }) =>
             {copied ? 'コピー済み' : 'コピー'}
           </button>
         </div>
-        <p className="text-xs text-tarot-dark/50 mt-2">
+        <p className="text-xs text-tarot-text-muted mt-2">
           このテキストをコピーして、ChatGPTやClaudeなどのAIに貼り付けて解釈を聞いてみましょう
         </p>
       </div>

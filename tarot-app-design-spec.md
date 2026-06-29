@@ -84,7 +84,8 @@ interface Card {
   name: string;        // 日本語名 例: "愚者", "ワンドのエース"
   arcana: Arcana;
   suit: Suit;
-  image: string;        // /cards/xxx.png へのパス
+  number: number;      // デッキ内の番号（0始まり）
+  image: string;        // /cards/xxx.svg へのパス
 }
 ```
 
