@@ -3,12 +3,23 @@ import type { ReadingResult, HistoryStore } from '../types';
 const HISTORY_KEY = 'tarot_results_history';
 const MAX_HISTORY = 5;
 
+function migrateEntry(entry: Partial<ReadingResult>): ReadingResult {
+  return {
+    question: entry.question ?? '',
+    useMajorArcana: entry.useMajorArcana ?? true,
+    useMinorArcana: entry.useMinorArcana ?? false,
+    items: entry.items ?? [],
+    timestamp: entry.timestamp ?? Date.now(),
+  };
+}
+
 export function loadHistory(): HistoryStore {
   try {
     const stored = localStorage.getItem(HISTORY_KEY);
     if (!stored) return [];
     const parsed = JSON.parse(stored);
-    return Array.isArray(parsed) ? parsed : [];
+    const arr = Array.isArray(parsed) ? parsed : [];
+    return arr.map(migrateEntry);
   } catch {
     return [];
   }

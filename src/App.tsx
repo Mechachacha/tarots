@@ -17,7 +17,8 @@ import HistoryPanel from './components/HistoryPanel';
 
 function App() {
   const [question, setQuestion] = useState('');
-  const [useMinorArcana, setUseMinorArcana] = useState(false);
+  const [useMajorArcana, setUseMajorArcana] = useState(true);
+  const [useMinorArcana, setUseMinorArcana] = useState(true);
   const [spreadMode, setSpreadMode] = useState<SpreadMode>('preset');
   const [selectedPresetId, setSelectedPresetId] = useState<string | null>(SPREAD_PRESETS[0].id);
   const [customCardCount, setCustomCardCount] = useState(1);
@@ -47,9 +48,10 @@ function App() {
     setError(null);
 
     try {
-      const items = drawCards(themes, useMinorArcana);
+      const items = drawCards(themes, useMajorArcana, useMinorArcana);
       const newResult: ReadingResult = {
         question,
+        useMajorArcana,
         useMinorArcana,
         items,
         timestamp: Date.now(),
@@ -63,7 +65,7 @@ function App() {
       setError(err instanceof Error ? err.message : 'エラーが発生しました');
       setIsDrawing(false);
     }
-  }, [getCurrentThemes, useMinorArcana, question]);
+  }, [getCurrentThemes, useMajorArcana, useMinorArcana, question]);
 
   const handleRedraw = useCallback(() => {
     const themes = getCurrentThemes();
@@ -73,9 +75,10 @@ function App() {
     setError(null);
 
     try {
-      const items = drawCards(themes, useMinorArcana);
+      const items = drawCards(themes, useMajorArcana, useMinorArcana);
       const newResult: ReadingResult = {
         question,
+        useMajorArcana,
         useMinorArcana,
         items,
         timestamp: Date.now(),
@@ -88,7 +91,7 @@ function App() {
       setError(err instanceof Error ? err.message : 'エラーが発生しました');
       setIsDrawing(false);
     }
-  }, [getCurrentThemes, useMinorArcana, question]);
+  }, [getCurrentThemes, useMajorArcana, useMinorArcana, question]);
 
   const handleCopyPrompt = useCallback(async (text: string) => {
     try {
@@ -96,13 +99,6 @@ function App() {
     } catch {
       // Ignore clipboard errors
     }
-  }, []);
-
-  const handleShareTwitter = useCallback((text: string) => {
-    const url = window.location.href;
-    const tweetText = `${text}\n\n${url}`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-    window.open(twitterUrl, '_blank', 'width=550,height=420');
   }, []);
 
   const handleCopyShare = useCallback(async (text: string) => {
@@ -154,8 +150,12 @@ function App() {
           />
 
           <MinorArcanaToggle
-            checked={useMinorArcana}
-            onChange={setUseMinorArcana}
+            useMajor={useMajorArcana}
+            useMinor={useMinorArcana}
+            onChange={(major, minor) => {
+              setUseMajorArcana(major);
+              setUseMinorArcana(minor);
+            }}
           />
 
           <SpreadSelector
@@ -183,7 +183,6 @@ function App() {
             cards={CARDS}
             onRedraw={handleRedraw}
             onCopyPrompt={handleCopyPrompt}
-            onShareTwitter={handleShareTwitter}
             onCopyShare={handleCopyShare}
           />
         )}

@@ -26,6 +26,7 @@ export interface DrawResultItem {
 
 export interface ReadingResult {
   question: string;
+  useMajorArcana: boolean;
   useMinorArcana: boolean;
   items: DrawResultItem[];
   timestamp: number;

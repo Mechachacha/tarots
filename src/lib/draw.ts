@@ -1,5 +1,5 @@
 import type { DrawResultItem, Position } from '../types';
-import { getFullDeck, getMajorArcana } from '../data/cards';
+import { getMajorArcana, getMinorArcana } from '../data/cards';
 
 export function shuffle<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -12,9 +12,13 @@ export function shuffle<T>(array: T[]): T[] {
 
 export function drawCards(
   themes: string[],
+  useMajorArcana: boolean,
   useMinorArcana: boolean
 ): DrawResultItem[] {
-  const deck = useMinorArcana ? getFullDeck() : getMajorArcana();
+  const deck = [
+    ...(useMajorArcana ? getMajorArcana() : []),
+    ...(useMinorArcana ? getMinorArcana() : []),
+  ];
   const shuffled = shuffle(deck);
 
   if (themes.length > shuffled.length) {

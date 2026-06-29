@@ -61,11 +61,19 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, cards, onCopyPromp
                   <span className="text-sm text-tarot-text-muted">
                     {format(new Date(result.timestamp), 'MM/dd HH:mm')}
                   </span>
-                  {result.useMinorArcana && (
-                    <span className="px-2 py-0.5 text-xs bg-tarot-gold/20 text-tarot-gold rounded-full">
-                      78枚
-                    </span>
-                  )}
+                  {(() => {
+                    const hasMajor = result.useMajorArcana ?? true;
+                    const hasMinor = result.useMinorArcana ?? false;
+                    let badge: string;
+                    if (hasMajor && hasMinor) badge = '全78枚';
+                    else if (hasMajor) badge = '大アルカナ22枚';
+                    else badge = '小アルカナ56枚';
+                    return (
+                      <span className="px-2 py-0.5 text-xs bg-tarot-gold/20 text-tarot-gold rounded-full">
+                        {badge}
+                      </span>
+                    );
+                  })()}
                 </div>
                 {result.question && (
                   <p className="text-tarot-text mt-1 truncate">

@@ -10,7 +10,6 @@ interface ResultSectionProps {
   cards: Card[];
   onRedraw: () => void;
   onCopyPrompt: (text: string) => void;
-  onShareTwitter: (text: string) => void;
   onCopyShare: (text: string) => void;
 }
 
@@ -22,9 +21,9 @@ function getSpreadLayout(
 
   if (count === 7) {
     return (
-      <div className="grid grid-cols-3 gap-4 max-w-xl mx-auto items-start" role="list">
+      <div className="grid grid-cols-3 gap-4 justify-items-center items-start" role="list">
         {items.map((item, i) => {
-          const gridStyle: React.CSSProperties = {};
+          const gridStyle: React.CSSProperties = { width: 150 };
           if (i === 0) { gridStyle.gridColumn = '2'; gridStyle.gridRow = '1'; }
           else if (i === 1) { gridStyle.gridColumn = '1'; gridStyle.gridRow = '2'; }
           else if (i === 2) { gridStyle.gridColumn = '3'; gridStyle.gridRow = '2'; }
@@ -41,9 +40,9 @@ function getSpreadLayout(
   if (count === 10) {
     return (
       <div className="flex flex-col lg:flex-row gap-6 items-start justify-center" role="list">
-        <div className="grid grid-cols-3 gap-3 max-w-sm flex-shrink-0">
+        <div className="grid grid-cols-3 gap-3 justify-items-center">
           {items.slice(0, 4).map((item, i) => {
-            const gridStyle: React.CSSProperties = {};
+            const gridStyle: React.CSSProperties = { width: 150 };
             if (i === 0) { gridStyle.gridColumn = '2'; gridStyle.gridRow = '2'; }
             else if (i === 1) { gridStyle.gridColumn = '1'; gridStyle.gridRow = '2'; }
             else if (i === 2) { gridStyle.gridColumn = '3'; gridStyle.gridRow = '2'; }
@@ -51,14 +50,14 @@ function getSpreadLayout(
             return <div key={item.cardId} style={gridStyle}>{renderCard(item, i)}</div>;
           })}
           {items.slice(4, 5).map((item, i) => (
-            <div key={item.cardId} style={{ gridColumn: '2', gridRow: '1' }}>
+            <div key={item.cardId} style={{ gridColumn: '2', gridRow: '1', width: 150 }}>
               {renderCard(item, i + 4)}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1 max-w-xs">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 justify-items-center">
           {items.slice(5).map((item, i) => (
-            <div key={item.cardId}>{renderCard(item, i + 5)}</div>
+            <div key={item.cardId} className="w-[150px]">{renderCard(item, i + 5)}</div>
           ))}
         </div>
       </div>
@@ -66,9 +65,9 @@ function getSpreadLayout(
   }
 
   return (
-    <div className="grid gap-4 mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-4xl" role="list">
+    <div className="grid gap-4 mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center" role="list">
       {items.map((item, index) => (
-        <div key={item.cardId}>{renderCard(item, index)}</div>
+        <div key={item.cardId} className="w-[150px]">{renderCard(item, index)}</div>
       ))}
     </div>
   );
@@ -78,7 +77,6 @@ const ResultSection: React.FC<ResultSectionProps> = ({
   result,
   onRedraw,
   onCopyPrompt,
-  onShareTwitter,
   onCopyShare,
 }) => {
   const resultRef = useRef<HTMLDivElement>(null);
@@ -156,7 +154,6 @@ const ResultSection: React.FC<ResultSectionProps> = ({
       <ShareButtons
         question={result.question}
         items={result.items}
-        onShareTwitter={onShareTwitter}
         onCopyShare={onCopyShare}
       />
     </section>
